@@ -1,20 +1,21 @@
-<template id="mytmp">
-    <div>
-        <div id="mynetwork"></div>
-    </div>
+<template>
+  <div>
+    <div id="mynetwork"></div>
+  </div>
 </template>
 
 <script>
 
-import axios from 'axios';
 import vis from 'vis';
 
 export default {
   name: 'Topology',
+  props: {
+    nodes: Array,
+    edges: Array,
+  },
   data() {
     return {
-      nodes: [],
-      edges: [],
       options: {
         manipulation: {
           enabled: true,
@@ -23,6 +24,7 @@ export default {
             callback(edgeData);
           },
         },
+        // physics: false,
         nodes: {
           physics: false,
         },
@@ -40,14 +42,7 @@ export default {
       };
     },
   },
-
   mounted() {
-    axios.get('/routers/topology').then(function (response) {
-      this.nodes = response.data.nodes;
-      this.edges = response.data.edges;
-      console.log(this.nodes);
-      console.log(this.edges);
-    });
     this.container = document.getElementById('mynetwork');
     this.network = new vis.Network(this.container, this.graph_data, this.options);
   },

@@ -1,5 +1,8 @@
 <template>
-  <Topology />
+  <div v-if="loadingRoutersData">Loading....</div>
+  <div v-else>
+    <Topology :nodes=nodes :edges=edges />
+  </div>
 </template>
 
 <script>
@@ -9,16 +12,17 @@ import Topology from '@/components/Topology.vue';
 export default {
   components: { Topology },
   data() {
-    return {};
+    return { loadingRoutersData: true, nodes: [], edges: [] };
   },
-  // async mounted() {
-  //   try {
-  //     const res = await axios.get('/routers/topology');
-  //     this.nodes = res.data.nodes;
-  //     this.edges = res.data.edges;
-  //   } catch (err) {
-  //     this.error = err;
-  //   }
-  // },
+  async mounted() {
+    try {
+      const res = await axios.get('/routers/topology');
+      this.nodes = res.data.nodes;
+      this.edges = res.data.edges;
+      this.loadingRoutersData = false;
+    } catch (err) {
+      this.error = err;
+    }
+  },
 };
 </script>
