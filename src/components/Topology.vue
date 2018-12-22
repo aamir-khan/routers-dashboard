@@ -1,18 +1,20 @@
-<template>
-  <div>
-      <div id="mynetwork" style="width: 1500px; height: 800px; border: 1px solid lightgray;"></div>
-  </div>
+<template id="mytmp">
+    <div>
+        <div id="mynetwork"></div>
+    </div>
 </template>
 
 <script>
 
+import axios from 'axios';
 import vis from 'vis';
 
 export default {
   name: 'Topology',
-  props: ['nodes', 'edges'],
   data() {
     return {
+      nodes: [],
+      edges: [],
       options: {
         manipulation: {
           enabled: true,
@@ -40,14 +42,12 @@ export default {
   },
 
   mounted() {
-    // axios.get('/routers/topology').then(function (response) {
-    //   this.nodes = response.data.nodes;
-    //   this.edges = response.data.edges;
-    //   console.log(this.nodes);
-    //   console.log(this.edges);
-    // });
-    // this.edges = this.nodes_edges.edges;
-    // this.nodes = this.nodes_edges.nodes;
+    axios.get('/routers/topology').then(function (response) {
+      this.nodes = response.data.nodes;
+      this.edges = response.data.edges;
+      console.log(this.nodes);
+      console.log(this.edges);
+    });
     this.container = document.getElementById('mynetwork');
     this.network = new vis.Network(this.container, this.graph_data, this.options);
   },
@@ -56,4 +56,9 @@ export default {
 
 <style scoped>
 
+#mynetwork {
+  width: 1200px;
+  height: 600px;
+  border: 1px solid lightgray;
+}
 </style>
