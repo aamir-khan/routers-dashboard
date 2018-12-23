@@ -13,7 +13,7 @@ export default {
   },
   async mounted() {
     try {
-      const res = await axios.get('/routers/' + this.$route.params.id);
+      const res = await axios.get(`/routers/${this.$route.params.id}`);
       this.router = res.data;
     } catch (err) {
       this.error = err;

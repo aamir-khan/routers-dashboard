@@ -2,11 +2,12 @@
   <div>
     <ul v-if="card">
       <li
-        v-for="slot in card.interfaces"
-        :key="slot.id"
-        :class="{ 'red': slot.status === 'Down' }"
+        v-for="interface_ in card.interfaces"
+        :key="interface_.id"
+        :class="{ 'red': interface_.status === 'Down' }"
         v-b-tooltip.hover
-        :title="slot.name"
+        :title="interface_.name"
+        v-on:click="navigate(interface_.connected_router)"
       ></li>
     </ul>
   </div>
@@ -15,9 +16,16 @@
 <script>
 export default {
   data() {
-    return { slotColor: "" };
+    return { slotColor: '' };
   },
-  props: ["card"]
+  props: ['card'],
+  methods: {
+    navigate(connectedRouter) {
+      if (connectedRouter) {
+        this.$router.push({ name: 'routeritem', params: { id: connectedRouter } })
+      }
+    },
+  },
 };
 </script>
 
