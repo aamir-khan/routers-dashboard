@@ -23,6 +23,8 @@ export default {
     navigate(connectedRouter) {
       if (connectedRouter) {
         this.$router.push({ name: 'routeritem', params: { id: connectedRouter } });
+      } else {
+        console.log('The port is not connected to any router.');
       }
     },
   },

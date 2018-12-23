@@ -53,7 +53,7 @@ export default {
 <style scoped>
 
 #mynetwork {
-  width: 1200px;
+  width: 1112px;
   height: 600px;
   border: 1px solid lightgray;
 }

@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  props: ["id", "name"]
+  props: ['id', 'name'],
 };
 </script>
 
@@ -21,6 +21,9 @@ export default {
 .card {
   margin-bottom: 20px !important;
   text-align: center;
-  padding: 20px;
+  padding: 8px;
+}
+.card a button {
+  white-space: normal;
 }
 </style>

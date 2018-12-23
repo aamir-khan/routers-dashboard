@@ -7,7 +7,7 @@
 
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-    <router-link
+    <router-link v-if="isLoggedIn"
       to="/"
       exact
     >
@@ -15,7 +15,7 @@
         Home
       </b-navbar-brand>
     </router-link>
-    <router-link
+    <router-link v-if="isLoggedIn"
       to="/topology"
       exact
     >
@@ -24,31 +24,77 @@
       </b-navbar-brand>
     </router-link>
 
-    <b-collapse
-      is-nav
-      id="nav_collapse"
-    >
-    </b-collapse>
+    <b-dropdown id="routers-dropdown" text="Routers" class="m-md-2 routers-dropdown"
+                v-if="isLoggedIn">
+      <b-dropdown-item
+        v-for="routerItem in routersList"
+        :key="routerItem.id"
+      >
+        <router-link :to="'/' + routerItem.id">
+          {{routerItem.name}}
+        </router-link>
+      </b-dropdown-item>
+    </b-dropdown>
+  <b-collapse
+    is-nav
+    id="nav_collapse"
+  >
+  </b-collapse>
 
-    <b-dropdown id="routers-dropdown" text="Routers" class="m-md-2 routers-dropdown">
-        <b-dropdown-item
-          v-for="routerItem in routersList"
-          :key="routerItem.id"
-        >
-          <router-link :to="'/' + routerItem.id">
-            {{routerItem.name}}
-          </router-link>
-        </b-dropdown-item>
-      </b-dropdown>
-
+    <div v-if="isLoggedIn">
+      <a @click="logout">
+        <b-navbar-brand class="logout-button">
+          Logout
+        </b-navbar-brand>
+      </a>
+    </div>
+    <div v-else>
+      <router-link
+        to="/login"
+        exact
+      >
+        <b-navbar-brand>
+          Login
+        </b-navbar-brand>
+      </router-link>
+    </div>
   </b-navbar>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'Navbar',
-  props: {
-    routersList: Array,
+  methods: {
+    logout() {
+      this.$store.dispatch('logout')
+        .then(() => {
+          this.$router.push('/login');
+        });
+    },
+  },
+  data() {
+    return { routersList: [] };
+  },
+  computed: {
+    isLoggedIn() { return this.$store.getters.isLoggedIn; },
+  },
+  created() {
+    this.$http.interceptors.response.use(undefined, err => new Promise(function (resolve, reject) {
+      if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+        this.$store.dispatch('logout');
+      }
+      throw err;
+    }));
+  },
+  async mounted() {
+    try {
+      const res = await axios.get('/routers');
+      this.routersList = res.data;
+    } catch (err) {
+      this.error = err;
+    }
   },
 };
 </script>
@@ -63,5 +109,8 @@ nav {
 }
 .routers-dropdown {
   margin: 0rem;
+}
+.logout-button {
+  cursor:pointer;
 }
 </style>

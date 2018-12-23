@@ -1,30 +1,19 @@
 <template>
   <b-container>
-    <Navbar :routersList=routersList />
+    <Navbar />
+
     <transition name="moveInUp">
-       <router-view/>
-  </transition>
+      <router-view/>
+    </transition>
   </b-container>
 </template>
 
 <script>
 
-import axios from 'axios';
 import Navbar from '@/components/Navbar.vue';
 
 export default {
   components: { Navbar },
-  data() {
-    return { routersList: [] };
-  },
-  async mounted() {
-    try {
-      const res = await axios.get('/routers');
-      this.routersList = res.data;
-    } catch (err) {
-      this.error = err;
-    }
-  },
 };
 </script>
 <style scoped>
@@ -57,4 +46,18 @@ export default {
   transform: translateY(-400px);
  }
 }
+</style>
+
+<style>
+    body {
+        background-color: #F0F0F0;
+    }
+    h1 {
+        padding: 0;
+        margin-top: 0;
+    }
+    #app {
+        width: 1024px;
+        margin: auto;
+    }
 </style>
