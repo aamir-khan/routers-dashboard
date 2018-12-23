@@ -1,7 +1,7 @@
 <template>
   <div v-if="loadingRoutersData">Loading....</div>
   <div v-else>
-    <Topology :nodes=nodes :edges=edges />
+    <Topology :nodes=nodes :edges=edges :displaySize=displaySize />
   </div>
 </template>
 
@@ -12,7 +12,9 @@ import Topology from '@/components/Topology.vue';
 export default {
   components: { Topology },
   data() {
-    return { loadingRoutersData: true, nodes: [], edges: [] };
+    return {
+      loadingRoutersData: true, nodes: [], edges: [], displaySize: 'fullScreen',
+    };
   },
   async mounted() {
     try {

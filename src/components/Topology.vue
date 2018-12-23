@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="mynetwork"></div>
+    <div id="mynetwork" :class="displaySize"></div>
   </div>
 </template>
 
@@ -13,6 +13,7 @@ export default {
   props: {
     nodes: Array,
     edges: Array,
+    displaySize: String,
   },
   data() {
     return {
@@ -55,5 +56,8 @@ export default {
   width: 1200px;
   height: 600px;
   border: 1px solid lightgray;
+}
+.fullScreen {
+  height: 800px!important;
 }
 </style>

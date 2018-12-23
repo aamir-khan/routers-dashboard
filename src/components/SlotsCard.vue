@@ -22,7 +22,7 @@ export default {
   methods: {
     navigate(connectedRouter) {
       if (connectedRouter) {
-        this.$router.push({ name: 'routeritem', params: { id: connectedRouter } })
+        this.$router.push({ name: 'routeritem', params: { id: connectedRouter } });
       }
     },
   },

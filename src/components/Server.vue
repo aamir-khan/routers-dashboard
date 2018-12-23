@@ -1,30 +1,42 @@
 <template>
-  <b-row class="justify-content-md-center">
-    <b-card
-      bg-variant="dark"
-      text-variant="white"
-    >
-      <b-col
-        cols="12"
-        md="auto"
+  <div>
+    <b-row class="justify-content-md-center">
+      <b-card
+        bg-variant="dark"
+        text-variant="white"
+        class="card-name-bar"
       >
-        <b-row>
-          <b-col
-            cols="4"
-            v-for="slot in router.slots"
-            :key="slot.id"
-          >
-            <div
-              v-if="!slot.card"
-              class="empty-slot"
+        {{ router.name }}
+      </b-card>
+    </b-row>
+    <br />
+    <b-row class="justify-content-md-center">
+      <b-card
+        bg-variant="dark"
+        text-variant="white"
+      >
+        <b-col
+          cols="12"
+          md="auto"
+        >
+          <b-row>
+            <b-col
+              cols="4"
+              v-for="slot in router.slots"
+              :key="slot.id"
             >
-            </div>
-            <SlotsCard :card="slot.card" />
-          </b-col>
-        </b-row>
-      </b-col>
-    </b-card>
-  </b-row>
+              <div
+                v-if="!slot.card"
+                class="empty-slot"
+              >
+              </div>
+              <SlotsCard :card="slot.card" />
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-card>
+    </b-row>
+    </div>
 </template>
 
 <script>
@@ -40,6 +52,14 @@ export default {
 <style scoped>
 div.card {
   width: 70%;
+}
+div.card-name-bar {
+  text-align: center;
+}
+div.card-name-bar div {
+  width: 100%;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .empty-slot {
